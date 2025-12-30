@@ -1,0 +1,141 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Node structure
+struct node {
+    int data;
+    struct node *next;
+};
+
+struct node *head = NULL;
+
+// Create linked list
+void create() {
+    struct node *newNode, *temp;
+    int choice;
+    do {
+        newNode = (struct node*)malloc(sizeof(struct node));
+        printf("Enter data: ");
+        scanf("%d", &newNode->data);
+        newNode->next = NULL;
+
+        if (head == NULL)
+            head = newNode;
+        else {
+            temp = head;
+            while (temp->next != NULL)
+                temp = temp->next;
+            temp->next = newNode;
+        }
+
+        printf("Add another node? (1/0): ");
+        scanf("%d", &choice);
+    } while (choice);
+}
+
+// Delete first node
+void deleteFirst() {
+    struct node *temp;
+    if (head == NULL)
+        printf("List is empty\n");
+    else {
+        temp = head;
+        head = head->next;
+        free(temp);
+        printf("First node deleted\n");
+    }
+}
+
+// Delete specific element
+void deleteSpecific() {
+    struct node *temp, *prev;
+    int key;
+    if (head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
+    printf("Enter element to delete: ");
+    scanf("%d", &key);
+
+    if (head->data == key) {
+        temp = head;
+        head = head->next;
+        free(temp);
+        printf("Element deleted\n");
+        return;
+    }
+
+    prev = head;
+    temp = head->next;
+    while (temp != NULL && temp->data != key) {
+        prev = temp;
+        temp = temp->next;
+    }
+
+    if (temp == NULL)
+        printf("Element not found\n");
+    else {
+        prev->next = temp->next;
+        free(temp);
+        printf("Element deleted\n");
+    }
+}
+
+// Delete last node
+void deleteLast() {
+    struct node *temp, *prev;
+    if (head == NULL)
+        printf("List is empty\n");
+    else if (head->next == NULL) {
+        free(head);
+        head = NULL;
+        printf("Last node deleted\n");
+    } else {
+        temp = head;
+        while (temp->next != NULL) {
+            prev = temp;
+            temp = temp->next;
+        }
+        prev->next = NULL;
+        free(temp);
+        printf("Last node deleted\n");
+    }
+}
+
+// Display list
+void display() {
+    struct node *temp = head;
+    if (head == NULL)
+        printf("List is empty\n");
+    else {
+        printf("Linked List: ");
+        while (temp != NULL) {
+            printf("%d -> ", temp->data);
+            temp = temp->next;
+        }
+        printf("NULL\n");
+    }
+}
+
+// Main
+int main() {
+    int choice;
+    do {
+        printf("\n1.Create\n2.Delete First\n3.Delete Specific\n4.Delete Last\n5.Display\n6.Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: create(); break;
+            case 2: deleteFirst(); break;
+            case 3: deleteSpecific(); break;
+            case 4: deleteLast(); break;
+            case 5: display(); break;
+            case 6: exit(0);
+            default: printf("Invalid choice\n");
+        }
+    } while (1);
+
+    return 0;
+}
