@@ -1,0 +1,76 @@
+#include <stdio.h>
+#define max 2
+
+int q[max], front = -1, rear = -1;
+
+void enqueue(int item) {
+    // Check if queue is full
+    if ((front == 0 && rear == max - 1) || (rear + 1) % max == front) {
+        printf("Queue is overflow\n");
+        return;
+    }
+    if (front == -1) { // Empty queue
+        front = rear = 0;
+    } else {
+        rear = (rear + 1) % max;
+    }
+    q[rear] = item;
+    printf("%d element is inserted in queue\n", item);
+}
+
+void dequeue() {
+    if (front == -1) { // Empty queue
+        printf("Queue is underflow\n");
+        return;
+    }
+    printf("Deleted element %d\n", q[front]);
+    if (front == rear) { // Only one element was present
+        front = rear = -1;
+    } else {
+        front = (front + 1) % max;
+    }
+}
+
+void display() {
+    if (front == -1) {
+        printf("Queue is empty\n");
+        return;
+    }
+    printf("Queue elements: ");
+    int i = front;
+    while (1) {
+        printf("%d ", q[i]);
+        if (i == rear)
+            break;
+        i = (i + 1) % max;
+    }
+    printf("\n");
+}
+
+int main() {
+    int choice, item;
+    while (1) {
+        printf("Queue menu\n");
+        printf("1. Enqueue\n2. Dequeue\n3. Display\n4. Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+        switch (choice) {
+            case 1:
+                printf("Enter item: ");
+                scanf("%d", &item);
+                enqueue(item);
+                break;
+            case 2:
+                dequeue();
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                printf("Exiting...\n");
+                return 0;
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+}
