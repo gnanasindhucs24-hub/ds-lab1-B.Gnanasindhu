@@ -1,0 +1,108 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct node{
+    int data;
+    struct node* next;
+};
+ struct node* start=NULL;
+ struct node* createnode(int num){
+     struct node* newnode=(struct node*)malloc(sizeof(struct node));
+     newnode->data=num;
+     newnode->next=NULL;
+     return newnode;
+ }
+ void insertatbeginnig(int  num){
+     struct node* newnode =createnode(num);
+     newnode->next=start;
+     start=newnode;
+ }
+ void insertatend(int num){
+     struct node* newnode=createnode(num);
+     if(start==NULL){
+            start=newnode;
+     return;
+     }
+     struct node* temp=start;
+     while(temp->next!=NULL)
+        temp=temp->next;
+     temp->next=newnode;
+ }
+ void insertatposition(int num,int position){
+     struct node* newnode=createnode(num);
+     if(position==1){
+            newnode->next=start;
+     start=newnode;
+     return;
+     }
+     struct node* temp=start;
+     for(int i=1;i<position-1&&temp!=NULL;i++)
+        temp=temp->next;
+     if(temp==NULL){
+            printf("list is out of range");
+     free(newnode);
+     return;
+     }
+     newnode->next=temp->next;
+     temp->next=newnode;
+
+ }
+ void display(){
+     if(start==NULL){
+            printf("list is empty\n");
+     return;
+     }
+     struct node* temp=start;
+     printf("linked list");
+     while(temp!=NULL){
+            printf("%d ->",temp->data);
+     temp=temp->next;
+     }
+     printf("NULL\n");
+ }
+ int main(){
+     int choice,num,position;
+     while(1){
+            printf("\n single linked list operations\n");
+     printf("1.insertatbeginning\n");
+     printf("2.insertatend\n");
+     printf("insertatanyposition\n");
+     printf("4.display\n");
+     printf("5.exit\n");
+     printf("enter choice");
+     scanf("%d",&choice);
+     switch(choice){
+     case 1:
+        printf("enter value");
+        scanf("%d",&num);
+        insertatbeginnig(num);
+        break;
+     case 2:
+         printf("enter value");
+        scanf("%d",&num);
+        insertatend(num);
+        break;
+     case 3:
+         printf("enter value");
+        scanf("%d",&num);
+        printf("enter popsition");
+        scanf("%d",&position);
+        insertatposition(num,position);
+        break;
+     case 4:
+        display();
+        break;
+     case 5:
+        printf("exit\n");
+        break;
+     default:
+        printf("�nvalid\n");
+        break;
+     }
+     }
+     return 0;
+ }
+
+
+
+
+
